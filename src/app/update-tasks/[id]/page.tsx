@@ -131,14 +131,14 @@ export default function UpdateTaskPage() {
           <div className="flex gap-2 justify-end mt-2">
             <button
               type="button"
-              className={`px-4 py-2 rounded-lg font-semibold`}
+              className="bg-gray-200 hover:bg-gray-300 text-gray-700 px-4 py-2 rounded-lg font-semibold transition-transform duration-150 hover:scale-105 cursor-pointer"
               onClick={() => router.push("/tasks")}
             >
               Annuler
             </button>
             <button
               type="submit"
-              className="bg-blue-500 hover:bg-blue-700 text-white px-6 py-2 rounded-lg font-bold shadow"
+              className={`bg-blue-500 hover:bg-blue-700 text-white px-6 py-2 rounded-lg font-bold shadow cursor-pointer`}
             >
               Enregistrer
             </button>
