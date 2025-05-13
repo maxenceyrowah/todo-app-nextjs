@@ -20,25 +20,27 @@ export function getTodos(): ITodo[] {
 export function addTodo(title: string, completed: boolean = false): ITodo {
   const todos = getStoredTodos();
   const newTodo: ITodo = {
-    id: Date.now(),
+    _id: Date.now().toString(),
     title,
-    completed,
+    status: completed ? "done" : "pending",
   };
   todos.push(newTodo);
   saveTodos(todos);
   return newTodo;
 }
 
-export function toggleTodo(id: number): void {
+export function toggleTodo(id: string): void {
   const todos = getStoredTodos();
   const updatedTodos = todos.map((todo) =>
-    todo.id === id ? { ...todo, completed: !todo.completed } : todo
+    todo._id === id
+      ? { ...todo, status: todo.status === "done" ? "pending" : "done" }
+      : todo
   );
   saveTodos(updatedTodos);
 }
 
-export function deleteTodo(id: number): void {
+export function deleteTodo(id: string): void {
   const todos = getStoredTodos();
-  const updatedTodos = todos.filter((todo) => todo.id !== id);
+  const updatedTodos = todos.filter((todo) => todo._id !== id);
   saveTodos(updatedTodos);
 }

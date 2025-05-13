@@ -1,32 +1,35 @@
 "use client";
 
 import { useRouter, useParams } from "next/navigation";
-import { getTodos, saveTodos } from "@/gateways/todos";
 import { useEffect, useState } from "react";
 import { useTheme } from "@/contexts/ThemeContext";
+import { getTasks, deleteTask } from "@/gateways/todoMongoDBGateway";
 
 export default function DeleteTaskPage() {
   const router = useRouter();
-  const params = useParams();
-  const id = Number(params.id);
+  const { id } = useParams();
   const [notFound, setNotFound] = useState(false);
   const [title, setTitle] = useState("");
   const { theme } = useTheme();
 
   useEffect(() => {
-    const todos = getTodos();
-    const todo = todos.find((t) => t.id === id);
+    if (!id) return;
+    getTaskById(id.toString());
+  }, [id]);
+
+  const getTaskById = async (id: string) => {
+    const todos = await getTasks();
+    const todo = todos.find((t) => t._id.toString() === id);
     if (!todo) {
       setNotFound(true);
       return;
     }
     setTitle(todo.title);
-  }, [id]);
+  };
 
   const handleDelete = () => {
-    const todos = getTodos();
-    const filtered = todos.filter((t) => t.id !== id);
-    saveTodos(filtered);
+    if (!id) return;
+    deleteTask(id.toString());
     router.push("/tasks");
   };
 
@@ -167,13 +170,13 @@ export default function DeleteTaskPage() {
         <div className="mb-6 font-medium text-blue-700">{title}</div>
         <div className="flex justify-center gap-4">
           <button
-            className="bg-gray-200 hover:bg-gray-300 text-gray-700 px-6 py-2 rounded-lg font-medium"
+            className="bg-gray-200 hover:bg-gray-300 text-gray-700 px-6 py-2 rounded-lg font-medium cursor-pointer"
             onClick={handleCancel}
           >
             Non
           </button>
           <button
-            className="bg-red-500 hover:bg-red-600 text-white px-6 py-2 rounded-lg font-semibold shadow"
+            className="bg-red-500 hover:bg-red-600 text-white px-6 py-2 rounded-lg font-semibold shadow cursor-pointer"
             onClick={handleDelete}
           >
             Oui

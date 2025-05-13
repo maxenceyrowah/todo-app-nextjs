@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { addTodo } from "@/gateways/todos";
+import { createTask } from "@/gateways/todoMongoDBGateway";
 
 import { useTheme } from "@/contexts/ThemeContext";
 
@@ -18,7 +18,10 @@ export default function CreateTaskPage() {
       setError("Le titre est requis.");
       return;
     }
-    addTodo(title.trim(), completed);
+    createTask({
+      title: title.trim(),
+      status: completed ? "done" : "pending",
+    });
     router.push("/tasks");
   };
 

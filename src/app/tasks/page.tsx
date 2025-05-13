@@ -1,23 +1,29 @@
 "use client";
 
 import { useState, useEffect } from "react";
+
 import { ITodo } from "@/interfaces/todo";
-import { getTodos } from "@/gateways/todos";
 import { useRouter } from "next/navigation";
 import TasksTable from "@/components/TasksTable";
-
 import { useTheme } from "@/contexts/ThemeContext";
+import { getTasks } from "@/gateways/todoMongoDBGateway";
 
 export default function TasksPage() {
   const [todos, setTodos] = useState<ITodo[]>([]);
 
   useEffect(() => {
-    setTodos(getTodos());
+    getAllTasks();
   }, []);
+
+  const getAllTasks = async () => {
+    const tasks = await getTasks();
+    console.log(tasks);
+    setTodos(tasks);
+  };
 
   const router = useRouter();
 
-  const handleEditTodo = (id: number) => {
+  const handleEditTodo = (id: string) => {
     router.push(`/update-tasks/${id}`);
   };
 
