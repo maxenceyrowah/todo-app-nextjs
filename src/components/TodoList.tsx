@@ -5,8 +5,8 @@ import TodoItem from "@/components/TodoItem";
 
 interface TodoListProps {
   todos: ITodo[];
-  onToggle: (id: number) => void;
-  onDelete: (id: number) => void;
+  onToggle: (id: string) => void;
+  onDelete: (id: string) => void;
 }
 
 export default function TodoList({
@@ -23,7 +23,7 @@ export default function TodoList({
       ) : (
         todos.map((todo) => (
           <TodoItem
-            key={todo.id}
+            key={todo._id}
             todo={todo}
             onToggle={onToggle}
             onDelete={onDelete}
