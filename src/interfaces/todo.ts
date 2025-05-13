@@ -8,8 +8,8 @@ export type TCreateTodo = Omit<ITodo, "_id">;
 
 export interface ITodoItemProps {
   todo: ITodo;
-  onToggle: (id: number) => void;
-  onDelete: (id: number) => void;
+  onToggle: (id: string) => void;
+  onDelete: (id: string) => void;
 }
 
 export interface ITodoFormProps {

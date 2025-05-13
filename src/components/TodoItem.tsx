@@ -16,12 +16,12 @@ export default function TodoItem({ todo, onToggle, onDelete }: ITodoItemProps) {
 
   const getTextColor = () => {
     if (theme === "dark") {
-      return todo.completed ? "text-gray-400" : "text-gray-100";
+      return todo.status === "done" ? "text-gray-400" : "text-gray-100";
     }
     if (theme === "pastel") {
-      return todo.completed ? "text-purple-500/70" : "text-purple-900";
+      return todo.status === "done" ? "text-purple-500/70" : "text-purple-900";
     }
-    return todo.completed ? "text-gray-500" : "text-gray-900";
+    return todo.status === "done" ? "text-gray-500" : "text-gray-900";
   };
 
   const getHoverTextColor = () => {
@@ -44,14 +44,14 @@ export default function TodoItem({ todo, onToggle, onDelete }: ITodoItemProps) {
       style={{ animation: "fadeIn 0.4s" }}
     >
       <span
-        onClick={() => onToggle(todo.id)}
+        onClick={() => onToggle(todo._id)}
         className={`cursor-pointer text-lg transition-colors duration-200 select-none 
           ${
-            todo.completed ? "line-through" : ""
+            todo.status === "done" ? "line-through" : ""
           } ${getTextColor()} ${getHoverTextColor()} font-semibold
         `}
         title={
-          todo.completed
+          todo.status === "done"
             ? "Marquer comme non terminée"
             : "Marquer comme terminée"
         }
@@ -59,7 +59,7 @@ export default function TodoItem({ todo, onToggle, onDelete }: ITodoItemProps) {
         {todo.title}
       </span>
       <button
-        onClick={() => onDelete(todo.id)}
+        onClick={() => onDelete(todo._id)}
         className={`ml-4 px-3 py-1 rounded-lg text-xs font-bold ${getDeleteButtonColor()} transition-colors duration-150 shadow-sm focus:outline-none focus:ring-2`}
         title="Supprimer la tâche"
       >
